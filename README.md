@@ -1,10 +1,10 @@
-> **Note:** this umbrella repo is being renamed from `OpenSourceProjects` to **`agent-toolbase`** to better describe what it holds. Old links will redirect automatically once the rename is complete.
+> **Note:** this umbrella repo is being renamed from `OpenSourceProjects` to **`LocalLab`** to better describe what it holds. Old links will redirect automatically once the rename is complete.
 
 <div align="center">
 
-# 🛠️ agent-toolbase
+# 🧪 LocalLab
 
-### A curated, local-first toolset for building, debugging, and running AI agents.
+### A local-first laboratory for building, debugging, and running AI agents.
 
 [![10 tools](https://img.shields.io/badge/tools-10%20and%20growing-2EA44F.svg)](#-the-tools)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -17,9 +17,9 @@
 
 ---
 
-**`agent-toolbase`** is the umbrella home for a family of small, sharp, **local-first** Python tools for agentic work. Each tool lives in its own repo, does one job, runs fully on your machine, and installs with `pipx`. No accounts, no API keys in our code, no phone home.
+**`LocalLab`** is the umbrella home for a family of small, sharp, **local-first** Python tools for agentic work. Each tool lives in its own repo, does one job, runs fully on your machine, and installs with `pipx`. No accounts, no API keys in our code, no phone home.
 
-Think of it as a **workbench** you own: record agent runs, audit token spend, lint tool calls, cap costs, cache tool results, and convert transcripts between providers — all offline, all under your control.
+Think of it as a **laboratory you own**: record agent runs, audit token spend, lint tool calls, cap costs, cache tool results, checkpoint state, and convert transcripts between providers — all offline, all under your control.
 
 ## ✨ Why this exists
 
@@ -28,7 +28,7 @@ The agent ecosystem is moving fast, but the tooling around it is mostly either:
 - **Hosted SaaS that wants your API keys**, or
 - **Heavy frameworks that do everything and own your workflow**.
 
-There is a gap in the middle for **small, sharp, local-first tools** you can read end-to-end, run offline, and own completely. These projects fill that gap.
+There is a gap in the middle for **small, sharp, local-first tools** you can read end-to-end, run offline, and own completely. LocalLab fills that gap.
 
 ## 🎯 Who this is for
 

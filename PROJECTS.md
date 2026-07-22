@@ -1,10 +1,10 @@
-> **Note:** this umbrella repo is being renamed from `OpenSourceProjects` to **`agent-toolbase`** to better describe what it holds. Old links will redirect automatically once the rename is complete.
+> **Note:** this umbrella repo is being renamed from `OpenSourceProjects` to **`LocalLab`** to better describe what it holds. Old links will redirect automatically once the rename is complete.
 
-# agent-toolbase — Project Index
+# LocalLab — Project Index
 
 A family of small, sharp, **local-first** open-source tools for AI agentic work and agents themselves. One repo per project; this file is the map.
 
-**Umbrella repo:** <https://github.com/Victorchatter/agent-toolbase> (was `OpenSourceProjects`)  
+**Umbrella repo:** <https://github.com/Victorchatter/LocalLab> (was `OpenSourceProjects`)  
 **License:** MIT (per project and umbrella)  
 **Stack:** Python · pipx-installable · no hosted backend · no telemetry
 
