@@ -1,11 +1,9 @@
-I made Claude Opus 5 and Sonnet 5 fight. Same coding task, same rules. 🥊
+I ran Claude Opus 5 and Sonnet 5 through the exact same coding task to see what the new flagship model actually buys you over the current default.
 
-📊 The scorecard:
-✅ Correctness → both nailed it, first try
-⚡ Speed → Sonnet 5: 9.6s vs Opus 5: 17s
-💰 Cost → Sonnet 5: $0.26 vs Opus 5: $0.40
-🧪 Test coverage → Opus 5 wrote 9 cases (I asked for 6), Sonnet 5 wrote 6
+The task: implement is_balanced(s), a function that checks whether parentheses, brackets, and braces in a string are correctly matched and nested — plus a self-test covering edge cases, executed to confirm every assertion actually passes. Same prompt, same constraints, independently verified afterward rather than just trusting each model's own report.
 
-Verdict so far: Sonnet 5 stays my default for quick, well-scoped work. Opus 5 spent extra to over-deliver on a task that didn't need it — real signal should show up on harder, multi-step problems.
+Both delivered a correct, working solution on the first try. Where they diverged: Opus 5 wrote 50% more test coverage than I asked for, but took 77% longer and cost 51% more to get there.
 
-Next up: running it against real Korrin and LocalLab tasks. Stay tuned 🧪
+My early read: for small, well-scoped work, Sonnet 5 stays the better default. Opus 5's extra depth should start earning its cost on harder, multi-step problems — that's what I'm testing next, with real tasks pulled from Korrin and LocalLab.
+
+Full breakdown in the chart below.
