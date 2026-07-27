@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧪 LocalLab
+# 🧪 LocalLabs
 
 ### A local-first laboratory for building, debugging, and running AI agents.
 
