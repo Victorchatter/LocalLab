@@ -126,6 +126,76 @@ transcript-bridge session.jsonl --from claude --to openai
 
 See each tool's README for full usage.
 
+## 🌂 The `locallab` umbrella CLI
+
+Install the umbrella package to manage the whole lab from one command:
+
+```bash
+pipx install git+https://github.com/Victorchatter/LocalLab.git
+```
+
+Available commands:
+
+```bash
+locallab install-all   # install all 10 tools via pipx (network)
+locallab update        # upgrade every installed LocalLab tool (network)
+locallab versions      # show installed versions (offline)
+locallab doctor        # smoke-test every installed tool (offline)
+locallab pipeline <recipe.yaml>  # run a cross-tool recipe (offline when local)
+```
+
+Example pipeline recipe (`locallab/recipes/record-audit-lint.yaml`):
+
+```yaml
+name: record-audit-lint
+steps:
+  - run: agent-vcr record -o tape.jsonl -- {agent_cmd}
+  - run: tokenauditor tape.jsonl --cost --cost-json -o audit.json
+  - run: toolcall-linter tape.jsonl --tools tools.json --format sarif -o lint.sarif
+  - run: transcript-to-test tape.jsonl -o test_regression.py
+  - assert:
+      file: audit.json
+      jq: '.total_cost <= 2.00'
+  - assert:
+      file: lint.sarif
+      jq: '.runs[0].results | length == 0'
+```
+
+Run with `--dry-run` to preview commands without executing them. See `locallab/recipes/` for more examples.
+
+**Network requirements:** `install-all` and `update` require network access; `versions`, `doctor`, and `pipeline` are offline when using local recipes and installed tools.
+
+## 📚 Cookbook
+
+The `examples/` directory has runnable recipes that combine multiple LocalLab
+tools:
+
+| Recipe | What it shows |
+|---|---|
+| [`cap-claude-code-spend.md`](examples/cap-claude-code-spend.md) | Run Claude Code through `agent-circuit-breaker` with a $5 cap. |
+| [`cache-filesystem-mcp.md`](examples/cache-filesystem-mcp.md) | Cache an MCP filesystem server with `toolcall-cache`. |
+| [`regression-test-from-tape.md`](examples/regression-test-from-tape.md) | Record with `agent-vcr`, generate a test with `transcript-to-test`, run it in CI. |
+| [`portability-check-before-migration.md`](examples/portability-check-before-migration.md) | Lint prompts with `prompt-portability-linter` before switching providers. |
+| [`resume-long-run.md`](examples/resume-long-run.md) | Save and resume a long run with `agent-checkpoint`. |
+
+Each recipe includes copy-paste commands, expected output, and why it matters.
+
+## 📊 Benchmarks
+
+Published benchmark results for the performance-sensitive tools are kept in
+each tool's `benchmarks/` directory:
+
+| Tool | Latest results |
+|---|---|
+| [agent-circuit-breaker](https://github.com/Victorchatter/agent-circuit-breaker/tree/main/benchmarks) | overhead benchmark |
+| [agent-vcr](https://github.com/Victorchatter/AgentVCR/tree/main/benchmarks) | record/replay overhead |
+| [toolcall-cache](https://github.com/Victorchatter/toolcall-cache/tree/main/benchmarks) | cache hit/put latency |
+| [agent-checkpoint](https://github.com/Victorchatter/agent-checkpoint/tree/main/benchmarks) | resume cost |
+
+Each `benchmarks/README.md` summarizes the latest numbers. Results are updated
+automatically on release tags via GitHub Actions and committed to
+`benchmarks/results/`.
+
 ## 🛡️ Trust model
 
 - **No telemetry.** The tools never send usage data anywhere.

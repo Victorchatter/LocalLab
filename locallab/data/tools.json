@@ -1,0 +1,52 @@
+{
+  "agent-vcr": {
+    "repo": "AgentVCR",
+    "package": "localab-vcr",
+    "smoke": ["--help"]
+  },
+  "tokenauditor": {
+    "repo": "Tokenauditor",
+    "package": "tokenauditor",
+    "smoke": ["--help"]
+  },
+  "toolcall-linter": {
+    "repo": "toolcall-linter",
+    "package": "toolcall-linter",
+    "smoke": ["--help"]
+  },
+  "transcript-to-test": {
+    "repo": "transcript-to-test",
+    "package": "transcript-to-test",
+    "smoke": ["--help"]
+  },
+  "agent-circuit-breaker": {
+    "repo": "agent-circuit-breaker",
+    "package": "localab-circuit-breaker",
+    "smoke": ["--help"]
+  },
+  "toolcall-cache": {
+    "repo": "toolcall-cache",
+    "package": "toolcall-cache",
+    "smoke": ["--help"]
+  },
+  "agent-checkpoint": {
+    "repo": "agent-checkpoint",
+    "package": "agent-checkpoint",
+    "smoke": ["--help"]
+  },
+  "transcript-bridge": {
+    "repo": "transcript-bridge",
+    "package": "transcript-bridge",
+    "smoke": ["formats"]
+  },
+  "mcp-openai-bridge": {
+    "repo": "mcp-openai-bridge",
+    "package": "mcp-openai-bridge",
+    "smoke": ["--help"]
+  },
+  "prompt-portability-linter": {
+    "repo": "prompt-portability-linter",
+    "package": "prompt-portability-linter",
+    "smoke": ["rules"]
+  }
+}
