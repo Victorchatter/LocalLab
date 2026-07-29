@@ -1,10 +1,11 @@
 <div align="center">
 
-# 🧪 LocalLabs
+# 🧪 LocalLab
 
-### A local-first laboratory for building, debugging, and running AI agents.
+### Ten local-first Python CLIs for AI agent work, sharing one tape format.
 
 [![10 tools](https://img.shields.io/badge/tools-10%20shipped-2EA44F.svg)](#-the-tools)
+[![PyPI](https://img.shields.io/badge/PyPI-installable-2EA44F.svg)](#-install-the-whole-lab)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](https://www.python.org/)
 [![Local-first](https://img.shields.io/badge/local--first-offline%20ready-2EA44F.svg)](#philosophy)
@@ -15,18 +16,13 @@
 
 ---
 
-**LocalLab** is a collection of **10 small, sharp, local-first Python tools** for agentic work. Each tool lives in its own repo, does one job, runs fully on your machine, and installs with `pipx`. No accounts, no API keys in our code, no phone home.
+**LocalLab** is ten small Python CLIs for building, debugging, and running AI agents — recording runs, auditing token spend, linting tool calls, capping cost, caching tool results, checkpointing state, converting transcripts between providers, and turning runs into regression tests. Each tool lives in its own repo, does one job, runs fully on your machine, and installs with `pipx`. No accounts, no API keys of our own, no phone home.
 
-Think of it as a **laboratory you own**: record agent runs, audit token spend, lint tool calls, cap costs, cache tool results, checkpoint state, convert transcripts between providers, and turn runs into regression tests — all offline, all under your control.
+## Why this exists, and why not just one tool
 
-## ✨ Why this exists
+Most of these problems already have a solution somewhere. `tokenauditor` does roughly what [context-viewer](https://github.com/auditt98/context-viewer) does. `mcp-openai-bridge` is a narrower version of the more mature [MCP-Bridge](https://github.com/SecretiveShell/MCP-Bridge). The PyPI names `agent-circuit-breaker` and `agent-vcr` were already taken by unrelated projects when we got there, so those two install as `localab-circuit-breaker` and `localab-vcr` (repo and CLI names stay the same). If you're evaluating any single tool in this family against its category, assume a competitor exists and go look — most of the time you'll find one.
 
-The agent ecosystem is moving fast, but the tooling around it is mostly either:
-
-- **Hosted SaaS that wants your API keys**, or
-- **Heavy frameworks that do everything and own your workflow**.
-
-There is a gap in the middle for **small, sharp, local-first tools** you can read end-to-end, run offline, and own completely. LocalLab fills that gap.
+What doesn't exist, as far as we've found, is the *set*: ten tools built against one JSONL tape envelope. One tape recorded by `agent-vcr` is read by `tokenauditor` — which gets an *exact* system+tools prefix from it instead of an inferred one — converted by `transcript-bridge`, and turned into a pytest regression by `transcript-to-test`. Each of those has a selfcheck asserting it, running in CI on every push, so the claim can't quietly stop being true. MIT, no telemetry, no hosted backend, `pipx`-installable, and — unlike most of the one-off prior art above — all ten with green CI (Python 3.10 and 3.13, a real `pip install -e .` + `selfcheck.py` run per push, not a badge nobody wired up). A coherent family rather than ten repos that happen to share an author. That's the part we're actually claiming, and it's the reason this exists as a "lab" instead of shipping the strongest tool alone.
 
 ## 🎯 Who this is for
 
@@ -42,26 +38,26 @@ There is a gap in the middle for **small, sharp, local-first tools** you can rea
 
 | Tool | What it does | Install |
 |------|--------------|---------|
-| [agent-vcr](https://github.com/Victorchatter/AgentVCR) | Record and replay agent runs with tool outputs stubbed | `pipx install git+https://github.com/Victorchatter/AgentVCR.git` |
-| [tokenauditor](https://github.com/Victorchatter/Tokenauditor) | Per-turn token breakdown + waste flags from any transcript | `pipx install git+https://github.com/Victorchatter/Tokenauditor.git` |
-| [toolcall-linter](https://github.com/Victorchatter/toolcall-linter) | Lint agent tool calls against declared schemas | `pipx install git+https://github.com/Victorchatter/toolcall-linter.git` |
-| [transcript-to-test](https://github.com/Victorchatter/transcript-to-test) | Turn a recorded run into a pytest regression test | `pipx install git+https://github.com/Victorchatter/transcript-to-test.git` |
+| [agent-vcr](https://github.com/Victorchatter/AgentVCR) | Record and replay agent runs with tool outputs stubbed | `pipx install localab-vcr` |
+| [tokenauditor](https://github.com/Victorchatter/Tokenauditor) | Per-turn token breakdown + waste flags from any transcript | `pipx install tokenauditor` |
+| [toolcall-linter](https://github.com/Victorchatter/toolcall-linter) | Lint agent tool calls against declared schemas | `pipx install toolcall-linter` |
+| [transcript-to-test](https://github.com/Victorchatter/transcript-to-test) | Turn a recorded run into a pytest regression test | `pipx install transcript-to-test` |
 
 ### Runtime & orchestration
 
 | Tool | What it does | Install |
 |------|--------------|---------|
-| [agent-circuit-breaker](https://github.com/Victorchatter/agent-circuit-breaker) | Hard-cap model spend per-run/per-day + kill switch | `pipx install git+https://github.com/Victorchatter/agent-circuit-breaker.git` |
-| [toolcall-cache](https://github.com/Victorchatter/toolcall-cache) | Content-addressed cache for MCP tool results | `pipx install git+https://github.com/Victorchatter/toolcall-cache.git` |
-| [agent-checkpoint](https://github.com/Victorchatter/agent-checkpoint) | Save/resume an agent run via a canonical JSONL tape | `pipx install git+https://github.com/Victorchatter/agent-checkpoint.git` |
+| [agent-circuit-breaker](https://github.com/Victorchatter/agent-circuit-breaker) | Hard-cap model spend per-run/per-day + kill switch | `pipx install localab-circuit-breaker` |
+| [toolcall-cache](https://github.com/Victorchatter/toolcall-cache) | Content-addressed cache for MCP tool results | `pipx install toolcall-cache` |
+| [agent-checkpoint](https://github.com/Victorchatter/agent-checkpoint) | Save/resume an agent run via a canonical JSONL tape | `pipx install localab-checkpoint` |
 
 ### Interop & portability
 
 | Tool | What it does | Install |
 |------|--------------|---------|
-| [transcript-bridge](https://github.com/Victorchatter/transcript-bridge) | Convert agent transcripts between provider formats | `pipx install git+https://github.com/Victorchatter/transcript-bridge.git` |
-| [mcp-openai-bridge](https://github.com/Victorchatter/mcp-openai-bridge) | Expose MCP servers as OpenAI function-calling tools | `pipx install git+https://github.com/Victorchatter/mcp-openai-bridge.git` |
-| [prompt-portability-linter](https://github.com/Victorchatter/prompt-portability-linter) | Flag vendor-locked features in your prompts | `pipx install git+https://github.com/Victorchatter/prompt-portability-linter.git` |
+| [transcript-bridge](https://github.com/Victorchatter/transcript-bridge) | Convert agent transcripts between provider formats | `pipx install transcript-bridge` |
+| [mcp-openai-bridge](https://github.com/Victorchatter/mcp-openai-bridge) | Expose MCP servers as OpenAI function-calling tools | `pipx install mcp-openai-bridge` |
+| [prompt-portability-linter](https://github.com/Victorchatter/prompt-portability-linter) | Flag vendor-locked features in your prompts | `pipx install prompt-portability-linter` |
 
 All 10 tools are **built, shipped, and installable today.**
 
@@ -102,16 +98,16 @@ Each tool is **standalone** — install one, use it alone. Built in roughly the 
 ## 📥 Install the whole lab
 
 ```bash
-pipx install git+https://github.com/Victorchatter/AgentVCR.git \
-         git+https://github.com/Victorchatter/Tokenauditor.git \
-         git+https://github.com/Victorchatter/toolcall-linter.git \
-         git+https://github.com/Victorchatter/transcript-to-test.git \
-         git+https://github.com/Victorchatter/agent-circuit-breaker.git \
-         git+https://github.com/Victorchatter/toolcall-cache.git \
-         git+https://github.com/Victorchatter/agent-checkpoint.git \
-         git+https://github.com/Victorchatter/transcript-bridge.git \
-         git+https://github.com/Victorchatter/mcp-openai-bridge.git \
-         git+https://github.com/Victorchatter/prompt-portability-linter.git
+pipx install localab-vcr \
+         tokenauditor \
+         toolcall-linter \
+         transcript-to-test \
+         localab-circuit-breaker \
+         toolcall-cache \
+         localab-checkpoint \
+         transcript-bridge \
+         mcp-openai-bridge \
+         prompt-portability-linter
 ```
 
 Then run any tool by name:
@@ -131,7 +127,7 @@ See each tool's README for full usage.
 Install the umbrella package to manage the whole lab from one command:
 
 ```bash
-pipx install git+https://github.com/Victorchatter/LocalLab.git
+pipx install locallab
 ```
 
 Available commands:
