@@ -1,5 +1,26 @@
 # LocalLab umbrella changelog
 
+## Unreleased
+
+### Fixed
+- `selfcheck.py` failed unconditionally on POSIX (Linux/macOS): fake tools
+  were written as `<name>.py`, but `shutil.which()` only matches the exact
+  executable filename on non-Windows, so every tool reported "not
+  installed" and `versions`/`doctor` checks always failed. Fake tools are
+  now written without an extension (with the executable bit set) on POSIX.
+- `locallab pipeline` never created the `{output}` directory it exposes to
+  recipe steps, so the bundled example recipes (`record-audit-lint.yaml`,
+  `hydrate-replay.yaml`) failed on a real (non-`--dry-run`) run as soon as
+  the first step tried to write into `{output}/...`.
+- An `assert.jq` expression referencing a missing JSON key crashed
+  `locallab pipeline` with a raw `KeyError`/`IndexError` traceback instead
+  of the documented `exit code 2` usage error.
+
+### Added
+- `AUDIT-2026-08.md`: bug/feature audit covering the umbrella CLI (verified
+  against code) and all ten LocalLab tools (audited against their published
+  design).
+
 ## 0.2.0 — 2026-07-28
 
 ### Added

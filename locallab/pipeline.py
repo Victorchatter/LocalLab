@@ -180,6 +180,8 @@ def run(recipe_path: str, *, dry_run: bool = False) -> int:
 
     if dry_run:
         print(f"# dry-run: {recipe.get('name', 'unnamed')}")
+    else:
+        output_dir.mkdir(parents=True, exist_ok=True)
 
     for idx, step in enumerate(steps, start=1):
         if not isinstance(step, dict):
@@ -223,7 +225,11 @@ def run(recipe_path: str, *, dry_run: bool = False) -> int:
             except (OSError, json.JSONDecodeError) as exc:
                 print(f"error: step {idx} cannot read {resolved_file}: {exc}", file=sys.stderr)
                 return 1
-            value = _eval_jq(jq_expr, data)
+            try:
+                value = _eval_jq(jq_expr, data)
+            except (KeyError, IndexError, TypeError, ValueError, RuntimeError) as exc:
+                print(f"error: step {idx} cannot evaluate jq {jq_expr!r}: {exc}", file=sys.stderr)
+                return 2
             if value is not True:
                 print(f"ASSERTION FAILED: step {idx} ({jq_expr}) -> {value}", file=sys.stderr)
                 return 1

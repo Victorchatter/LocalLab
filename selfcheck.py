@@ -31,10 +31,12 @@ def _write_fake_tool(bindir: Path, name: str, version: str) -> None:
     """Create a fake CLI tool as a Python script on PATH.
 
     On Windows the file must have a .py extension to be executable from PATH
-    via PATHEXT; shutil.which('agent-vcr') will find agent-vcr.py. On Unix the
-    same works when the file is executable, and the .py extension is harmless.
+    via PATHEXT; shutil.which('agent-vcr') will find agent-vcr.py there. On
+    POSIX, shutil.which() only matches the exact executable filename (it does
+    not try extensions), so the fake tool must be named exactly `agent-vcr`
+    with the executable bit set and a shebang line.
     """
-    script = bindir / f"{name}.py"
+    script = bindir / (f"{name}.py" if os.name == "nt" else name)
     content = (
         "#!/usr/bin/env python3\n"
         "import sys\n"
@@ -51,7 +53,7 @@ def _write_fake_tool(bindir: Path, name: str, version: str) -> None:
 
 
 def _write_fake_tool_subcommand(bindir: Path, name: str, subcommand: str, version: str) -> None:
-    script = bindir / f"{name}.py"
+    script = bindir / (f"{name}.py" if os.name == "nt" else name)
     content = (
         "#!/usr/bin/env python3\n"
         "import sys\n"
